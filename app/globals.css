@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-gray-900 bg-white dark:text-gray-100 dark:bg-gray-900 transition-colors duration-300;
+  }
+  
+  * {
+    @apply selection:bg-primary/20;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-lg font-medium relative overflow-hidden
+           hover:bg-indigo-600 hover:shadow-lg hover:scale-105 
+           active:scale-95 transition-all duration-200 ease-out
+           before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent 
+           before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-primary border-2 border-primary px-6 py-3 rounded-lg font-medium
+           hover:bg-primary hover:text-white hover:shadow-lg hover:scale-105
+           dark:bg-gray-800 dark:text-primary dark:border-primary dark:hover:bg-primary dark:hover:text-white
+           active:scale-95 transition-all duration-200 ease-out;
+  }
+  
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 
+           hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 hover:scale-[1.02]
+           dark:hover:shadow-primary/20 transition-all duration-300 ease-out;
+  }
+  
+  .card-interactive {
+    @apply card cursor-pointer;
+  }
+  
+  .progress-ring {
+    @apply transition-all duration-500 ease-out;
+  }
+  
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/80 dark:bg-gray-800/80 border border-white/20 dark:border-gray-700/20;
+  }
+  
+  .shimmer-bg {
+    @apply bg-gradient-to-r from-gray-200 via-white to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700;
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+  
+  .glow-on-hover {
+    @apply hover:animate-glow;
+  }
+}
