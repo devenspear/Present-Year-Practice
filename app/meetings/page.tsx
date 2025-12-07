@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { loadState } from '@/lib/store'
 import { showNotification } from '@/lib/utils'
 import Header from '@/components/Header'
@@ -136,27 +135,28 @@ export default function MeetingsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-calm dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-cream">
       <Header />
-      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200/20 dark:border-gray-700/20 px-8 py-3">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Meeting Toolkit</h1>
+      <div className="bg-white/80 backdrop-blur-sm border-b border-stone/30 px-8 py-4">
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-2xl font-serif text-charcoal">Meeting Toolkit</h1>
+          <p className="text-sm text-warmgray">Facilitate meaningful gatherings</p>
         </div>
       </div>
 
-      <main className="max-w-6xl mx-auto px-8 py-8">
+      <main className="max-w-5xl mx-auto px-8 py-8">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <div className="card mb-6">
-              <h2 className="text-xl font-semibold mb-4">Agenda Builder</h2>
-              
+              <h2 className="text-lg font-serif text-charcoal mb-4">Agenda Builder</h2>
+
               <div className="flex gap-2 mb-4">
                 {Object.keys(agendas).map(key => (
                   <button
                     key={key}
                     onClick={() => setAgenda(key)}
-                    className={`px-4 py-2 rounded-lg transition ${
-                      agenda === key ? 'bg-primary text-white' : 'bg-gray-100 hover:bg-gray-200'
+                    className={`px-4 py-2 rounded-full text-sm transition-all duration-200 ${
+                      agenda === key ? 'bg-primary text-white' : 'bg-sand text-warmgray hover:bg-stone'
                     }`}
                   >
                     {key === 'custom' ? 'Custom' : key}
@@ -165,16 +165,16 @@ export default function MeetingsPage() {
               </div>
 
               {agenda !== 'custom' && (
-                <div className="space-y-3">
-                  <h3 className="font-semibold">{agendas[agenda as keyof typeof agendas].title}</h3>
+                <div className="space-y-2">
+                  <h3 className="font-medium text-charcoal mb-3">{agendas[agenda as keyof typeof agendas].title}</h3>
                   {agendas[agenda as keyof typeof agendas].segments.map((segment, i) => (
-                    <div key={i} className="flex justify-between items-center p-3 bg-calm rounded-lg">
-                      <span>{segment.name}</span>
+                    <div key={i} className="flex justify-between items-center p-3 bg-sand/50 rounded-xl border border-stone/20">
+                      <span className="text-charcoal text-sm">{segment.name}</span>
                       <button
                         onClick={() => startTimer(segment.duration)}
-                        className="text-primary hover:underline text-sm"
+                        className="text-primary hover:text-secondary transition-colors duration-200 text-sm font-medium"
                       >
-                        {segment.duration} min →
+                        {segment.duration} min &rarr;
                       </button>
                     </div>
                   ))}
@@ -182,20 +182,20 @@ export default function MeetingsPage() {
               )}
 
               {agenda === 'custom' && (
-                <div className="text-gray-600">
+                <div className="text-warmgray text-sm">
                   <p>Create your own meeting structure</p>
-                  <button className="btn-secondary mt-3">Build Custom Agenda</button>
+                  <button className="btn-secondary mt-3 text-sm py-2">Build Custom Agenda</button>
                 </div>
               )}
             </div>
 
             <div className="card">
-              <h2 className="text-xl font-semibold mb-4">Talking Stick Queue</h2>
-              
+              <h2 className="text-lg font-serif text-charcoal mb-4">Talking Stick Queue</h2>
+
               {currentSpeaker && (
-                <div className="bg-primary text-white p-4 rounded-lg mb-4">
-                  <div className="text-sm opacity-75">Now Speaking:</div>
-                  <div className="text-xl font-semibold">{currentSpeaker}</div>
+                <div className="bg-primary text-white p-4 rounded-xl mb-4">
+                  <div className="text-xs uppercase tracking-wide opacity-80">Now Speaking</div>
+                  <div className="text-lg font-serif">{currentSpeaker}</div>
                 </div>
               )}
 
@@ -206,22 +206,22 @@ export default function MeetingsPage() {
                   onChange={(e) => setNewSpeaker(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && addToQueue()}
                   placeholder="Add name to queue"
-                  className="flex-1 p-3 border rounded-lg"
+                  className="flex-1"
                 />
-                <button onClick={addToQueue} className="btn-primary">
+                <button onClick={addToQueue} className="btn-primary px-4">
                   Add
                 </button>
               </div>
 
               {talkingQueue.length > 0 && (
                 <div className="space-y-2 mb-4">
-                  <div className="text-sm font-medium">Waiting to speak:</div>
+                  <div className="text-xs uppercase tracking-wide text-warmgray">Waiting to speak</div>
                   {talkingQueue.map((name, i) => (
-                    <div key={i} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                      <span>{i + 1}. {name}</span>
+                    <div key={i} className="flex justify-between items-center p-2 bg-sand/50 rounded-lg">
+                      <span className="text-sm text-charcoal">{i + 1}. {name}</span>
                       <button
                         onClick={() => setTalkingQueue(talkingQueue.filter((_, idx) => idx !== i))}
-                        className="text-red-500 hover:underline text-sm"
+                        className="text-terracotta hover:text-terracotta/80 transition-colors duration-200 text-xs"
                       >
                         Remove
                       </button>
@@ -242,21 +242,21 @@ export default function MeetingsPage() {
 
           <div>
             <div className="card mb-6">
-              <h2 className="text-xl font-semibold mb-4">Timer</h2>
-              
+              <h2 className="text-lg font-serif text-charcoal mb-4">Timer</h2>
+
               <div className="text-center mb-6">
-                <div className="text-6xl font-bold text-primary mb-4">
+                <div className="text-5xl font-serif text-primary mb-4">
                   {formatTime(timer.remaining)}
                 </div>
-                
-                <div className="flex justify-center gap-3">
-                  <button onClick={toggleTimer} className="btn-primary">
+
+                <div className="flex justify-center gap-2">
+                  <button onClick={toggleTimer} className="btn-primary px-6">
                     {timer.isRunning ? 'Pause' : 'Start'}
                   </button>
-                  <button onClick={resetTimer} className="btn-secondary">
+                  <button onClick={resetTimer} className="btn-secondary px-4">
                     Reset
                   </button>
-                  <button onClick={playChime} className="btn-secondary">
+                  <button onClick={playChime} className="btn-secondary px-4">
                     Test Chime
                   </button>
                 </div>
@@ -267,7 +267,7 @@ export default function MeetingsPage() {
                   <button
                     key={mins}
                     onClick={() => startTimer(mins)}
-                    className="p-2 bg-gray-100 hover:bg-gray-200 rounded transition"
+                    className="p-2 bg-sand text-warmgray hover:bg-stone hover:text-charcoal rounded-lg transition-all duration-200 text-sm"
                   >
                     {mins} min
                   </button>
@@ -276,17 +276,17 @@ export default function MeetingsPage() {
             </div>
 
             <div className="card">
-              <h2 className="text-xl font-semibold mb-4">Closing Ritual</h2>
-              
-              <div className="space-y-3">
+              <h2 className="text-lg font-serif text-charcoal mb-4">Closing Ritual</h2>
+
+              <div className="space-y-2">
                 {closingRituals.map((ritual, i) => (
-                  <div key={i} className="p-3 bg-calm rounded-lg hover:bg-indigo-100 transition cursor-pointer">
+                  <div key={i} className="p-3 bg-sand/50 rounded-xl border border-stone/20 hover:border-primary/30 transition-all duration-200 cursor-pointer text-sm text-charcoal">
                     {ritual}
                   </div>
                 ))}
               </div>
 
-              <button className="btn-secondary w-full mt-4">
+              <button className="btn-secondary w-full mt-4 text-sm py-2">
                 Download Facilitator Guide
               </button>
             </div>
@@ -294,15 +294,15 @@ export default function MeetingsPage() {
         </div>
 
         <div className="card mt-8">
-          <h3 className="text-xl font-semibold mb-4">Quick Resources</h3>
+          <h3 className="text-lg font-serif text-charcoal mb-4">Quick Resources</h3>
           <div className="grid md:grid-cols-3 gap-4">
-            <button className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+            <button className="p-4 bg-sand/50 rounded-xl border border-stone/20 hover:border-primary/30 transition-all duration-200 text-sm text-charcoal">
               Print Check-in Sheet
             </button>
-            <button className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+            <button className="p-4 bg-sand/50 rounded-xl border border-stone/20 hover:border-primary/30 transition-all duration-200 text-sm text-charcoal">
               Download Agenda PDF
             </button>
-            <button className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+            <button className="p-4 bg-sand/50 rounded-xl border border-stone/20 hover:border-primary/30 transition-all duration-200 text-sm text-charcoal">
               Safety Guidelines
             </button>
           </div>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { loadState, updateState, AppState, JournalEntry } from '@/lib/store'
 import { exportToText, exportToPDF, showNotification } from '@/lib/utils'
 import { format } from 'date-fns'
@@ -41,7 +40,7 @@ export default function JournalPage() {
     const newState = updateState({
       journalEntries: [...state.journalEntries, entry]
     })
-    
+
     setState(newState)
     setNewEntry('')
     setSelectedTags([])
@@ -52,7 +51,7 @@ export default function JournalPage() {
 
   const exportJournal = async (exportFormat: 'txt' | 'pdf') => {
     if (!state) return
-    
+
     const content = state.journalEntries
       .map(entry => `${exportFormat === 'txt' ? format(new Date(entry.date), 'PPP') : ''}\nMood: ${entry.mood}/10\nTags: ${entry.tags.join(', ')}\n\n${entry.content}\n\n---\n`)
       .join('\n')
@@ -77,53 +76,56 @@ export default function JournalPage() {
   const availableTags = ['gratitude', 'reflection', 'fear', 'joy', 'growth', 'challenge', 'insight', 'intention']
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-calm dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-cream">
       <Header />
-      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200/20 dark:border-gray-700/20 px-8 py-3">
-        <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Journal</h1>
+      <div className="bg-white/80 backdrop-blur-sm border-b border-stone/30 px-8 py-4">
+        <div className="max-w-3xl mx-auto flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-serif text-charcoal">Journal</h1>
+            <p className="text-sm text-warmgray">Reflect, process, and grow</p>
+          </div>
           <div className="flex gap-2">
-            <button onClick={() => exportJournal('txt')} className="btn-secondary text-sm">
+            <button onClick={() => exportJournal('txt')} className="btn-secondary text-sm py-2 px-4">
               Export .txt
             </button>
-            <button onClick={() => exportJournal('pdf')} className="btn-secondary text-sm">
+            <button onClick={() => exportJournal('pdf')} className="btn-secondary text-sm py-2 px-4">
               Export .pdf
             </button>
           </div>
         </div>
       </div>
 
-      <main className="max-w-4xl mx-auto px-8 py-8">
+      <main className="max-w-3xl mx-auto px-8 py-8">
         <div className="card mb-8">
-          <h2 className="text-xl font-semibold mb-4">New Entry</h2>
-          
+          <h2 className="text-lg font-serif text-charcoal mb-4">New Entry</h2>
+
           <textarea
             value={newEntry}
             onChange={(e) => setNewEntry(e.target.value)}
             placeholder="What's on your heart today?"
-            className="w-full p-4 border rounded-lg h-32 mb-4"
+            className="w-full h-32 mb-4"
           />
 
           <div className="space-y-4 mb-6">
             <div>
-              <label className="block text-sm font-medium mb-2">Mood (1-10)</label>
+              <label className="block text-sm font-medium text-charcoal mb-2">Mood (1-10)</label>
               <input
                 type="range"
                 min="1"
                 max="10"
                 value={mood}
                 onChange={(e) => setMood(parseInt(e.target.value))}
-                className="w-full"
+                className="w-full accent-primary"
               />
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-sm text-warmgray">
                 <span>Low</span>
-                <span className="font-semibold">{mood}</span>
+                <span className="font-medium text-primary">{mood}</span>
                 <span>High</span>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Tags</label>
+              <label className="block text-sm font-medium text-charcoal mb-2">Tags</label>
               <div className="flex flex-wrap gap-2">
                 {availableTags.map(tag => (
                   <button
@@ -135,10 +137,10 @@ export default function JournalPage() {
                         setSelectedTags([...selectedTags, tag])
                       }
                     }}
-                    className={`px-3 py-1 rounded-full text-sm transition ${
+                    className={`px-3 py-1.5 rounded-full text-sm transition-all duration-200 ${
                       selectedTags.includes(tag)
                         ? 'bg-primary text-white'
-                        : 'bg-gray-100 hover:bg-gray-200'
+                        : 'bg-sand text-warmgray hover:bg-stone'
                     }`}
                   >
                     {tag}
@@ -147,57 +149,58 @@ export default function JournalPage() {
               </div>
             </div>
 
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 text-sm text-charcoal">
               <input
                 type="checkbox"
                 checked={isPrivate}
                 onChange={(e) => setIsPrivate(e.target.checked)}
+                className="accent-primary"
               />
               <span>Keep this entry private</span>
             </label>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex items-center gap-4">
             <button onClick={saveEntry} className="btn-primary">
               Save Entry
             </button>
-            <div className="text-sm text-gray-600 flex items-center">
-              Word count: {newEntry.split(' ').filter(w => w).length}
-            </div>
+            <span className="text-sm text-warmgray">
+              {newEntry.split(' ').filter(w => w).length} words
+            </span>
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-6">
           <input
             type="text"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             placeholder="Filter by tag or content..."
-            className="w-full p-3 border rounded-lg"
+            className="w-full"
           />
         </div>
 
         <div id="journal-entries" className="space-y-4">
-          {filteredEntries.reverse().map(entry => (
+          {[...filteredEntries].reverse().map(entry => (
             <div key={entry.id} className="card">
-              <div className="flex justify-between items-start mb-2">
-                <div className="text-sm text-gray-600">
+              <div className="flex justify-between items-start mb-3">
+                <div className="text-sm text-warmgray">
                   {format(new Date(entry.date), 'PPP')}
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">Mood: {entry.mood}/10</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-warmgray">Mood: {entry.mood}/10</span>
                   {entry.isPrivate && (
-                    <span className="text-xs bg-gray-100 px-2 py-1 rounded">Private</span>
+                    <span className="tag text-xs">Private</span>
                   )}
                 </div>
               </div>
-              
-              <p className="mb-3 whitespace-pre-wrap">{entry.content}</p>
-              
+
+              <p className="text-charcoal mb-3 whitespace-pre-wrap leading-relaxed">{entry.content}</p>
+
               {entry.tags.length > 0 && (
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   {entry.tags.map(tag => (
-                    <span key={tag} className="text-xs bg-calm px-2 py-1 rounded">
+                    <span key={tag} className="tag text-xs">
                       {tag}
                     </span>
                   ))}
@@ -208,7 +211,7 @@ export default function JournalPage() {
         </div>
 
         {filteredEntries.length === 0 && (
-          <div className="text-center text-gray-500 py-12">
+          <div className="text-center text-warmgray py-12">
             {filter ? 'No entries match your filter' : 'No journal entries yet. Start writing!'}
           </div>
         )}

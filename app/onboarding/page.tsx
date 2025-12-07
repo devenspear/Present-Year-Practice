@@ -23,7 +23,7 @@ export default function Onboarding() {
         notificationsEnabled: true
       }
     })
-    
+
     const icsContent = generateICS(
       'Begin Present Year Practice',
       'Start your 12-month journey of presence and purpose',
@@ -31,13 +31,13 @@ export default function Onboarding() {
       60
     )
     downloadICS('present-year-kickoff', icsContent)
-    
+
     showNotification('Welcome to your Present Year Practice!', 'success')
     router.push('/dashboard')
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-calm to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-cream">
       <Header />
       <div className="max-w-2xl mx-auto px-8 py-12">
         <div className="mb-8">
@@ -45,19 +45,19 @@ export default function Onboarding() {
             {[1, 2, 3, 4].map(i => (
               <div
                 key={i}
-                className={`w-1/4 h-2 mx-1 rounded ${
-                  i <= step ? 'bg-primary' : 'bg-gray-200'
+                className={`flex-1 h-1.5 mx-1 rounded-full transition-all duration-300 ${
+                  i <= step ? 'bg-primary' : 'bg-stone'
                 }`}
               />
             ))}
           </div>
-          <h1 className="text-3xl font-bold mb-2 text-gray-800 dark:text-gray-200">Welcome to Your Journey</h1>
-          <p className="text-gray-600 dark:text-gray-300">Let's set up your practice in just a few minutes</p>
+          <h1 className="text-3xl font-serif mb-2 text-charcoal">Welcome to Your Journey</h1>
+          <p className="text-warmgray">Let's set up your practice in just a few minutes</p>
         </div>
 
         {step === 1 && (
-          <div className="card">
-            <h2 className="text-xl font-semibold mb-4">Choose Your Path</h2>
+          <div className="card animate-fade-in">
+            <h2 className="text-xl font-serif text-charcoal mb-4">Choose Your Path</h2>
             <div className="space-y-3">
               {[
                 { value: 'individual', label: 'Individual', desc: 'Self-guided personal practice' },
@@ -66,8 +66,8 @@ export default function Onboarding() {
               ].map(option => (
                 <label
                   key={option.value}
-                  className={`block p-4 border-2 rounded-lg cursor-pointer transition ${
-                    path === option.value ? 'border-primary bg-calm' : 'border-gray-200 hover:border-gray-300'
+                  className={`block p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
+                    path === option.value ? 'border-primary bg-sand' : 'border-stone/30 hover:border-primary/30'
                   }`}
                 >
                   <input
@@ -77,8 +77,8 @@ export default function Onboarding() {
                     onChange={(e) => setPath(e.target.value as any)}
                     className="sr-only"
                   />
-                  <div className="font-medium text-gray-800 dark:text-gray-200">{option.label}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">{option.desc}</div>
+                  <div className="font-medium text-charcoal">{option.label}</div>
+                  <div className="text-sm text-warmgray">{option.desc}</div>
                 </label>
               ))}
             </div>
@@ -93,9 +93,9 @@ export default function Onboarding() {
         )}
 
         {step === 2 && (
-          <div className="card">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">What brings you here?</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">Select all that resonate</p>
+          <div className="card animate-fade-in">
+            <h2 className="text-xl font-serif text-charcoal mb-4">What brings you here?</h2>
+            <p className="text-warmgray mb-4">Select all that resonate</p>
             <div className="space-y-2">
               {[
                 'Living with more presence',
@@ -107,7 +107,7 @@ export default function Onboarding() {
                 'Building community',
                 'Spiritual growth'
               ].map(goal => (
-                <label key={goal} className="flex items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded transition-colors duration-200">
+                <label key={goal} className="flex items-center p-3 hover:bg-sand/50 rounded-lg transition-colors duration-200 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={goals.includes(goal)}
@@ -118,9 +118,9 @@ export default function Onboarding() {
                         setGoals(goals.filter(g => g !== goal))
                       }
                     }}
-                    className="mr-3"
+                    className="mr-3 accent-primary"
                   />
-                  <span className="text-gray-800 dark:text-gray-200">{goal}</span>
+                  <span className="text-charcoal">{goal}</span>
                 </label>
               ))}
             </div>
@@ -140,20 +140,20 @@ export default function Onboarding() {
         )}
 
         {step === 3 && (
-          <div className="card">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Set Your Practice Rhythm</h2>
+          <div className="card animate-fade-in">
+            <h2 className="text-xl font-serif text-charcoal mb-4">Set Your Practice Rhythm</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-medium mb-2 text-charcoal">
                   Daily reminder time
                 </label>
                 <input
                   type="time"
                   value={reminderTime}
                   onChange={(e) => setReminderTime(e.target.value)}
-                  className="w-full p-3 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+                  className="w-full"
                 />
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <p className="text-sm text-warmgray mt-2">
                   We'll remind you to check in with your practice
                 </p>
               </div>
@@ -170,32 +170,32 @@ export default function Onboarding() {
         )}
 
         {step === 4 && (
-          <div className="card">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">You're Ready!</h2>
+          <div className="card animate-fade-in">
+            <h2 className="text-xl font-serif text-charcoal mb-4">You're Ready!</h2>
             <div className="space-y-4 mb-6">
-              <div className="flex items-center">
-                <span className="text-2xl mr-3">✓</span>
+              <div className="flex items-center p-3 bg-sage/10 rounded-lg border border-sage/20">
+                <span className="text-sage text-xl mr-3">&#10003;</span>
                 <div>
-                  <div className="font-medium text-gray-800 dark:text-gray-200">Path chosen</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">{path} practice</div>
+                  <div className="font-medium text-charcoal">Path chosen</div>
+                  <div className="text-sm text-warmgray">{path} practice</div>
                 </div>
               </div>
-              <div className="flex items-center">
-                <span className="text-2xl mr-3">✓</span>
+              <div className="flex items-center p-3 bg-sage/10 rounded-lg border border-sage/20">
+                <span className="text-sage text-xl mr-3">&#10003;</span>
                 <div>
-                  <div className="font-medium text-gray-800 dark:text-gray-200">Goals set</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">{goals.length} areas of focus</div>
+                  <div className="font-medium text-charcoal">Goals set</div>
+                  <div className="text-sm text-warmgray">{goals.length} areas of focus</div>
                 </div>
               </div>
-              <div className="flex items-center">
-                <span className="text-2xl mr-3">✓</span>
+              <div className="flex items-center p-3 bg-sage/10 rounded-lg border border-sage/20">
+                <span className="text-sage text-xl mr-3">&#10003;</span>
                 <div>
-                  <div className="font-medium text-gray-800 dark:text-gray-200">Reminders scheduled</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Daily at {reminderTime}</div>
+                  <div className="font-medium text-charcoal">Reminders scheduled</div>
+                  <div className="text-sm text-warmgray">Daily at {reminderTime}</div>
                 </div>
               </div>
             </div>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
+            <p className="text-warmgray mb-6">
               Click below to download your Month 1 workbook and add your kickoff event to your calendar.
             </p>
             <button onClick={handleComplete} className="btn-primary w-full">
