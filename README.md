@@ -8,7 +8,9 @@ Present Year Practice guides individuals through a structured yet flexible path 
 
 ## Live Demo
 
-[https://present-year-practice.vercel.app](https://present-year-practice.vercel.app)
+**[https://pyp.deven.network](https://pyp.deven.network)**
+
+(also available at [https://present-year-practice.vercel.app](https://present-year-practice.vercel.app))
 
 ## Features
 
